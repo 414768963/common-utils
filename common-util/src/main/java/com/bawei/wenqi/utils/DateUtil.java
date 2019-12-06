@@ -135,7 +135,7 @@ public class DateUtil {
 	* @Description: 初始化到该月初的1日0时0分0秒0毫秒
 	* @param @param date
 	* @param @return    设定文件  
-	* @return String    返回类型  
+	* @return Date    返回类型  
 	*/
 	public static Date setDateToFirstDayOfThisMonth(Date date) {
 		
@@ -150,9 +150,52 @@ public class DateUtil {
 		return calendar.getTime();
 	}
 	
+	/**  
+	* @Title: setDateToFirstDayOfThisMonth  
+	* @Description: 给定时间对象，设定到该月最一天的23时59分59秒999毫秒
+	* @param @param date
+	* @param @return    设定文件  
+	* @return Date    返回类型  
+	*/
+	public static Date setDateToLastDayOfThisMonth(Date date) {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.add(Calendar.MONTH, 1);
+		calendar.set(Calendar.DAY_OF_MONTH, 1);
+		calendar.set(Calendar.HOUR, 0);
+		calendar.set(Calendar.MINUTE, 0);
+		calendar.set(Calendar.SECOND, 0);
+		calendar.add(Calendar.SECOND, -1);
+		
+		
+		return calendar.getTime();
+
+	}
+	
+	/**  
+	* @Title: compareTime  
+	* @Description: 比较两个时间的大小
+	* @param @param date1
+	* @param @param date2
+	* @param @return    设定文件  
+	* @return int    返回类型  
+	*/
+	public static int compareTime(Date date1,Date date2) {
+		long d1 = date1.getTime();
+		long d2 = date2.getTime();
+		if(d1==d2) {
+			return 0;
+		}
+		if(d1>d2) {
+			return 1;
+		}
+		return -1;
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Date parse = simpleDateFormat.parse("1999-12-06");
-		System.out.println(simpleDateFormat3.format(setDateToFirstDayOfThisMonth(parse)));
+		System.out.println(simpleDateFormat3.format(setDateToLastDayOfThisMonth(parse)));
 		
 	}
 	
