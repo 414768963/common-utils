@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 /** 
  * @Title: DateUtil.java 
@@ -16,6 +17,8 @@ import java.util.Date;
 public class DateUtil {
 
 	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+	private static SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM");
+	private static SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 	
 	/**  
 	* @Title: getAge  
@@ -65,6 +68,13 @@ public class DateUtil {
 		return (int) days;
 	}
 	
+	/**  
+	* @Title: isToday  
+	* @Description: 判断日期与今天是否是同一天  
+	* @param @param date
+	* @param @return    设定文件  
+	* @return boolean    返回类型  
+	*/
 	public static boolean isToday(Date date) {
 		
 		if(simpleDateFormat.format(date).toString().equals(simpleDateFormat.format(new Date()).toString())) {
@@ -74,9 +84,76 @@ public class DateUtil {
 		return false;
 	}
 	
+	/**  
+	* @Title: isThisWeek  
+	* @Description: 给定一个日期判断是否是本周  
+	* @param @param date
+	* @param @return    设定文件  
+	* @return boolean    返回类型  
+	*/
+	public static boolean isThisWeek(Date date) {
+		
+		
+	    Calendar firstDayOfWeek = Calendar.getInstance(Locale.getDefault());
+	    System.out.println(firstDayOfWeek);
+	    firstDayOfWeek.setFirstDayOfWeek(Calendar.MONDAY);
+	    int day = firstDayOfWeek.get(Calendar.DAY_OF_WEEK);
+	    firstDayOfWeek.add(Calendar.DATE, -day+1+1);// 后面的+1是因为从周日开始
+	    // 本周一的日期
+	    System.out.println(simpleDateFormat.format(firstDayOfWeek.getTime()));
+	     
+	    Calendar lastDayOfWeek = Calendar.getInstance(Locale.getDefault());
+	    System.out.println(firstDayOfWeek);
+	    lastDayOfWeek.setFirstDayOfWeek(Calendar.MONDAY);
+	    day = lastDayOfWeek.get(Calendar.DAY_OF_WEEK);
+	    lastDayOfWeek.add(Calendar.DATE, 7-day+1);
+	    
+	    // 本周星期天的日期
+	    System.out.println(simpleDateFormat.format(lastDayOfWeek.getTime()));
+	    
+	    return (date.getTime()<lastDayOfWeek.getTime().getTime() && date.getTime()>firstDayOfWeek.getTime().getTime() );
+	}
+
+	/**  
+	* @Title: isToday  
+	* @Description: 判断日期与今天是否是同一月
+	* @param @param date
+	* @param @return    设定文件  
+	* @return boolean    返回类型  
+	*/
+	public static boolean isThisMonth(Date date) {
+		
+		if(simpleDateFormat2.format(date).toString().equals(simpleDateFormat2.format(new Date()).toString())) {
+			return true;
+		}
+		
+		return false;
+	}
+	
+	/**  
+	* @Title: setDateToFirstDayOfThisMonth  
+	* @Description: 初始化到该月初的1日0时0分0秒0毫秒
+	* @param @param date
+	* @param @return    设定文件  
+	* @return String    返回类型  
+	*/
+	public static Date setDateToFirstDayOfThisMonth(Date date) {
+		
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		calendar.set(Calendar.DAY_OF_MONTH,1);
+		calendar.set(Calendar.HOUR,0);
+		calendar.set(Calendar.MINUTE,0);
+		calendar.set(Calendar.SECOND,0);
+		
+		
+		return calendar.getTime();
+	}
+	
 	public static void main(String[] args) throws Exception {
-		Date parse = simpleDateFormat.parse("1999-12-05");
-		System.out.println(getAge(parse));
+		Date parse = simpleDateFormat.parse("1999-12-06");
+		System.out.println(simpleDateFormat3.format(setDateToFirstDayOfThisMonth(parse)));
+		
 	}
 	
 	
