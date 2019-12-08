@@ -4,9 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
 
 /** 
  * @Title: StreamUtil.java 
@@ -63,6 +67,34 @@ public class StreamUtil {
 		}finally {
 			closeAll(is,reader,bufferedReader);
 		}
+	}
+	
+	/**
+	 * @Title: readTextFileOfList   
+	 * @Description: 按行读取文件内容到list集合   
+	 * @param: @param pathname
+	 * @param: @return      
+	 * @return: List<String>      
+	 * @throws
+	 */
+	public static List<String> readTextFileOfList(String pathname) {
+		BufferedReader br = null;
+		List<String> strList = new ArrayList<>();
+		try {
+			br = new BufferedReader(new FileReader(new File(pathname)));
+			do {
+				strList.add(br.readLine());
+			}while(br.read()!=-1);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			StreamUtil.closeAll(br);
+		}
+		return strList;
 	}
 	
 	/**  
