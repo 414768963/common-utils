@@ -56,6 +56,13 @@ public class StringUtil {
 		
 	}
 	
+	//判断手机号码是否为数值，是否长度为11位，开始位必须是1.
+	public static boolean judgeTelephoneIsOk(String src){
+		String regex="^((13[0-9])|(14[5|7])|(15([0-3]|[5-9]))|(17[013678])|(18[0,5-9]))\\d{8}$";	
+		return src.matches(regex);
+	}
+
+	
 	/**  
 	* @Title: isEmail  
 	* @Description: TODO(判断是否为邮箱账号)  

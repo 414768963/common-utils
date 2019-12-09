@@ -69,32 +69,36 @@ public class StreamUtil {
 		}
 	}
 	
-	/**
-	 * @Title: readTextFileOfList   
-	 * @Description: 按行读取文件内容到list集合   
-	 * @param: @param pathname
-	 * @param: @return      
-	 * @return: List<String>      
-	 * @throws
-	 */
-	public static List<String> readTextFileOfList(String pathname) {
-		BufferedReader br = null;
-		List<String> strList = new ArrayList<>();
-		try {
-			br = new BufferedReader(new FileReader(new File(pathname)));
-			do {
-				strList.add(br.readLine());
-			}while(br.read()!=-1);
-		} catch (FileNotFoundException e) {
+	
+	/**  
+	* @Title: ReadFileByLine  
+	* @Description: 按行读取文件返回list集合
+	* @param @param filename
+	* @param @return    设定文件  
+	* @return String    返回类型  
+	*/
+	public static List<String> ReadFileByLineOfList(String filename) {
+		 File file = new File(filename);
+		 List<String> strList = new ArrayList<>();
+         InputStream is = null;
+         Reader reader = null;
+         BufferedReader bufferedReader = null;
+         
+         try {
+			is = new FileInputStream(file);
+	        reader = new InputStreamReader(is);
+            bufferedReader = new BufferedReader(reader);
+            String line = null;
+            while ((line = bufferedReader.readLine()) != null) {
+            	strList.add(line);
+            }
+
+		} catch (Exception e) {
 			e.printStackTrace();
-			return null;
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
 		}finally {
-			StreamUtil.closeAll(br);
+			closeAll(is,reader,bufferedReader);
 		}
-		return strList;
+         return strList;
 	}
 	
 	/**  
@@ -121,6 +125,9 @@ public class StreamUtil {
 	}
 	
 	public static void main(String[] args) {
-		ReadFileByBytes("D:\\内网通文件\\java\\小一\\资料\\common-utils\\src\\main\\java\\com\\zhanggm\\common\\utils\\StreamUtil.java");
+		List<String> readTextFileOfList = ReadFileByLineOfList("D:\\内网通文件\\java\\小一\\资料\\common-utils\\src\\main\\java\\com\\zhanggm\\common\\utils\\StreamUtil.java");
+		for (String s : readTextFileOfList) {
+			System.out.println(s);
+		}
 	}
 }
