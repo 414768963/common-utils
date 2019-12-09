@@ -33,6 +33,18 @@ public class StringUtil {
 	}
 	
 	/**  
+	* @Title: isNumber  
+	* @Description: 判断是否是全数字  
+	* @param @param str
+	* @param @return    设定文件  
+	* @return boolean    返回类型  
+	*/
+	public static boolean isNumber(String str) {
+		String regex="[0-9]{1,}";
+		return str.matches(regex);
+	}
+	
+	/**  
 	* @Title: isNotBlank  
 	* @Description: TODO(判断是否有值)  
 	* @param @param str
