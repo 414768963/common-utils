@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 文件工具类
  * @Description:封装文件的常用方法  
- * @author: zhanggm1002
+ * @author: wenqi
  * @date:   2019年12月5日 下午1:27:47
  */
 public class FileUtil {

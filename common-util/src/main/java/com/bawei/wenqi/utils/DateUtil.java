@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 /**
  * @Description:日期工具类   
- * @author: zhanggm1002
+ * @author: wenqi
  * @date:   2019年12月5日 下午1:23:19
  */
 public class DateUtil {
