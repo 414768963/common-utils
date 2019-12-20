@@ -3,58 +3,40 @@ package com.bawei.wenqi.utils;
 import java.util.Random;
 
 /**
- * 
- * @author 刘浩
- * @Title: RandomUtil.java 
- * @Package com.liuhao.util 
- * @Description: 随机数字字母等等操作
- * @date 2019年12月6日 下午7:32:55
+ * 随机工具类
+ * @Description:TODO(描述这个类的作用)   
+ * @author: zhanggm1002
+ * @date:   2019年12月5日 下午1:31:23
  */
 public class RandomUtil {
-    /**
-     * 
-     * @Title: random 
-     * @Description: 根据传入的最大最小值，获取随机数
-     * @param @param min
-     * @param @param max
-     * @param @return    设定文件 
-     * @return int    返回类型 
-     * @throws
-     */
-    
-	public static int random(int min,int max) {
-		
-		Random random = new Random();
-		int num =min+random.nextInt(max-min+1);
-		//int num = min+(int)(Math.random()*(max-min+1));
-		return num;
-	}
-	
 	/**
-	 * 
-	 * @Title: random 
-	 * @Description: 给定一个最大值，一个最小值，一个随机数的数量
-	 * @param @param min
-	 * @param @param max
-	 * @param @param count
-	 * @param @return    设定文件 
-	 * @return int[]    返回类型 
+	 * @Title: random   
+	 * @Description: 获得最小数和最大数之间的随机数   
+	 * @param: @param min
+	 * @param: @param max
+	 * @param: @return      
+	 * @return: int      
 	 * @throws
-	 * 
 	 */
-public static int[] random(int min,int max,int count) {
-		
-	       int [] a =new int[count];
-	      for(int i=0;i<count;i++){
-	    	  
-	    	  int j = random(min, max);
-	    	  a[i] =j;
-	    	  
-	      }	
-	
-		return a;
+	public static int random(int min,int max) {
+		Random random = new Random();
+		return min+random.nextInt(max-min+1);
 	}
-	
-	
-	
+	/**
+	 * @Title: random   
+	 * @Description: 获得最小数和最大数之间的多个随机数
+	 * @param: @param min
+	 * @param: @param max
+	 * @param: @param num
+	 * @param: @return      
+	 * @return: int[]      
+	 * @throws
+	 */
+	public static int[] random(int min,int max,int num) {
+		int[] intArray = new int[num];
+		for (int i = 0; i < num; i++) {
+			intArray[i] = random(min, max);
+		}
+		return intArray;
+	}
 }

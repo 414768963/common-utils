@@ -1,176 +1,101 @@
 package com.bawei.wenqi.utils;
 
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
-
+/**
+ * 流工具类
+ * @Description:TODO(描述这个类的作用)   
+ * @author: zhanggm1002
+ * @date:   2019年12月5日 下午1:31:39
+ */
 public class StreamUtil {
-
 	/**
-	 * 
-	 * 
-	 * @Title: closeStream 
-	 * @Description: 关流
-	 * @param @param autoCloseables    设定文件 
-	 * @return void    返回类型 
+	 * 关闭流的方法
+	 * @Title: closeAll   
+	 * @Description: 数组参数，可以批量删除多个打开的流   
+	 * @param: @param autoCloseables      
+	 * @return: void      
 	 * @throws
 	 */
-	public static void closeStream(AutoCloseable...autoCloseables) {
-		
-		for (AutoCloseable autoCloseable : autoCloseables) {
-			if(autoCloseable!=null) {
+	public static void closeAll(AutoCloseable... autoCloseables ) {
+		if(autoCloseables!=null) {
+			for(AutoCloseable autoCloseable:autoCloseables) {
 				try {
 					autoCloseable.close();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 	
-	
 	/**
-	 * 
-	 * @Title: readTextFile 
-	 * @Description: 读取文件中的内容
-	 * @param @param file
-	 * @param @return    设定文件 
-	 * @return String    返回类型 
+	 * @Title: readTextFile   
+	 * @Description: 以流的方式，读取文本文件内容   
+	 * @param: @param file
+	 * @param: @return      
+	 * @return: String      
 	 * @throws
 	 */
-	@SuppressWarnings("resource")
-	public static String  readTextFile(File file) {
-		     InputStream input =null;
-		     String str="";
+	public static String readTextFile(File file) {
+		InputStream inputStream = null;
 		try {
-			 input = new  FileInputStream(file);
+			inputStream = new FileInputStream(file);
 			byte[] b = new byte[1024];
-			while( input.read(b)!=-1) {
-				
-				str+=new String(b);
+			String str = null;
+			while (inputStream.read(b)!=-1) {
+				str += new String(b);
 			}
-			
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			return str;
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
+			return null;
 		}finally {
-			closeStream(input);
+			closeAll(inputStream);
 		}
-		
-		return str;
-		
-	}	
-	
-	/**
-	 * 
-	 * @Title: readTextFileByLine 
-	 * @Description: 按行读取文件内容
-	 * @param @param file
-	 * @param @return    设定文件 
-	 * @return List<String>    返回类型 
-	 * @throws
-	 */
-	
-	
-	public static List<String> readTextFileByLine(File file) {
-		
-		BufferedReader br =null;
-		  List<String> list = new ArrayList<>();
-		  try {
-			   
-			br = new BufferedReader(new FileReader(file));
-			  String str="";
-			  //此处你用fin.read方法已经读取一个字符了二循环体又用readline方法
-			  //接着读显然会少一个字符因为你read方法读过一个字符游标就会移动一下
-			while((str=br.readLine())!=null) {
-				list.add(str);
-				
-			}
-			
-			
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}finally {
-            closeStream(br);
-		}
-		
-		return list;
 	}
 	/**
-	 * 
-	 * @Title: copyStream 
-	 * @Description: TODO复制流
-	 * @param @param input
-	 * @param @param out
-	 * @param @param isCloseInputStream
-	 * @param @param isCloseOutputStream    设定文件 
-	 * @return void    返回类型 
+	 * @Title: getFileContent   
+	 * @Description: 根据文件全名读取文件内容   
+	 * @param: @param fileFullName
+	 * @param: @return      
+	 * @return: String      
 	 * @throws
 	 */
-	
-	public static void copyStream(InputStream input,OutputStream out,boolean isCloseInputStream,boolean isCloseOutputStream) {
-		
-		
-		
+	public static String readTextFile(String fileFullName) {
+		return readTextFile(new File(fileFullName));
 	}
 	
-	/**
-	 * 
-	 * @Title: writeFileContext 
-	 * @Description: 
-	 * @param @param path
-	 * @param @param file    设定文件 
-	 * @return void    返回类型 
-	 * @throws
-	 */
-	
-      @SuppressWarnings("resource")
-	   public static void  writeFileContext(String context,File file,boolean append) {
-    	  
-    	  BufferedWriter bw = null;
-    	  
-    	  try {
-			
-			 //判断所写的文件是否有父级路径
-			 String parent = file.getParent();
-			 File parentFile = new File(parent);
-			 if(!parentFile.exists()) {
-				 parentFile.mkdirs();
-			 }
-			 //写文件
-			 bw = new BufferedWriter(new FileWriter(file,append));
-			 bw.write(context);
-			 bw.flush();
-			 
-			 
-		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+	public static void writeTextFile(String content,File file,boolean append) {
+		BufferedWriter writer = null;
+		try {
+			//判断写文件的文件夹是否存在
+			String parent = file.getParent();
+			File parentFile = new File(parent);
+			if(!parentFile.exists()) {
+				parentFile.mkdirs();
+			}
+			//写文件
+			writer = new BufferedWriter(new FileWriter(file,append));
+			writer.write(content);
+			writer.flush();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			closeStream(bw);
+			closeAll(writer);
 		}
-      }
+	}
 	
-	 public static void downFileFromNet() {
-		 
-	 }
-	
+	public static void writeTextFile(String content,String fileFullName,boolean append) {
+		writeTextFile(content,new File(fileFullName), append);
+	}
+
+	public static void main(String[] args) {
+		String readTextFile = readTextFile("C:\\Users\\Administrator\\Desktop\\pom.xml");
+		writeTextFile(readTextFile, "C:\\Users\\Administrator\\Desktop\\aa\\aa.xml",false);
+	}
 }

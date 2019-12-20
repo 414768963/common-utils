@@ -1,6 +1,7 @@
 package com.bawei.wenqi.utils;
-import java.security.MessageDigest;
 
+import java.security.MessageDigest;
+  
 /**
  * @Description:采用MD5加密解密   
  * @author: zhanggm1002
@@ -26,7 +27,7 @@ public class Md5Util {
         }  
         char[] charArray = inStr.toCharArray();  
         byte[] byteArray = new byte[charArray.length];  
-
+  
         for (int i = 0; i < charArray.length; i++)  
             byteArray[i] = (byte) charArray[i];  
         byte[] md5Bytes = md5.digest(byteArray);  
@@ -38,9 +39,9 @@ public class Md5Util {
             hexValue.append(Integer.toHexString(val));  
         }  
         return hexValue.toString();  
-
+  
     }  
-
+  
     /**
      * @Title: convertMD5   
      * @Description: 加密解密算法 执行一次加密，两次解密  
@@ -58,3 +59,4 @@ public class Md5Util {
         return s;
     }  
 }
+
