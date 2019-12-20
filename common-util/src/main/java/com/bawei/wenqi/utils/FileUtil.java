@@ -1,83 +1,114 @@
 package com.bawei.wenqi.utils;
 
 import java.io.File;
+import java.text.DecimalFormat;
 
 public class FileUtil {
-
-	/**  
-	* @Title: fileExtendName  
-	* @Description: »ñÈ¡ÎÄ¼şÀ©Õ¹Ãû
-	* @param @param fileName
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return String    ·µ»ØÀàĞÍ  
-	*/
-	public static String fileExtendName(String fileName) {
+       /**
+        * 
+        * @Title: getExtName 
+        * @Description: è·å–æ–‡ä»¶åçš„æ‹“å±•å 
+        * @param @param fileName
+        * @param @return    è®¾å®šæ–‡ä»¶ 
+        * @return String    è¿”å›ç±»å‹ 
+        * @throws
+        */
+	public static String getExtName(String fileName) {
 		
-		if(fileName!=null && !fileName.equals("")) {
-			return fileName.substring(fileName.lastIndexOf("."));
-		}
+		String extName = fileName.substring(fileName.lastIndexOf("."));
 		
-		return "ÎÄ¼şÎª¿Õ";
+		return extName;
 	}
-	
-	/**  
-	* @Title: getSystemUserHome  
-	* @Description: »ñÈ¡ÏµÍ³µ±Ç°ÓÃ»§Ä¿Â¼
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return String    ·µ»ØÀàĞÍ  
-	*/
-	public static String getSystemUserHome() {
-		return System.getProperty("user.home");
-	}
-	
-	
 	/**
-	 * @Title: deleteFile   
-	 * @Description: µİ¹éÉ¾³ıÎÄ¼ş   
-	 * @param: @param file      
-	 * @return: void      
+	 * 
+	 * @Title: deleteFile 
+	 * @Description: é€’å½’åˆ é™¤æ–‡ä»¶
+	 * @param @param file    è®¾å®šæ–‡ä»¶ 
+	 * @return void    è¿”å›ç±»å‹ 
 	 * @throws
 	 */
 	public static void deleteFile(File file) {
+		//isDirectory() åˆ¤æ–­è¯¥æ–‡ä»¶æ˜¯å¦æ˜¯æ–‡ä»¶å¤¹
 		if(file.isDirectory()) {
 			File[] listFiles = file.listFiles();
-			for (File theFile : listFiles) {
-				deleteFile(theFile);
-			}
-			file.delete();
-		}else {
+			for (File file2 : listFiles) {
+				deleteFile(file2);
+			}   
 			file.delete();
 		}
+		else {
+			file.delete();
+		}
+		
+		
 	}
-	
-	//É¾³ıÎÄ¼ş·½·¨ÖØÔØ
+	/**
+	 * 
+	 * @Title: deleteFile 
+	 * @Description: åˆ é™¤æ–‡ä»¶
+	 * @param @param filePath    è®¾å®šæ–‡ä»¶ 
+	 * @return void    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
 	public static void deleteFile(String filePath) {
+		
 		deleteFile(new File(filePath));
+	} 
+	
+	
+	/**
+	 * 
+	 * @Title: getSystemUserHome 
+	 * @Description: è·å–æ“ä½œç³»ç»Ÿç”¨æˆ·ç›®å½• 
+	 * @param @param args    è®¾å®šæ–‡ä»¶ 
+	 * @return String    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	public static String getSystemUserHome() {
+		
+		return System.getProperty("user.home");
+	}
+	/**
+	 * 
+	 * @Title: getSystemTempDirectory 
+	 * @Description: TODOè·å–å½“å‰ç³»ç»Ÿçš„ä¸´æ—¶ç›®å½• 
+	 * @param @return    è®¾å®šæ–‡ä»¶ 
+	 * @return String    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	public static String getSystemTempDirectory() {
+		
+		
+		return System.getProperty("java.io.tmpdir");
 	}
 	
-	/**  
-	* @Title: fileSize  
-	* @Description: »ñµÃÎÄ¼ş´óĞ¡(kb)
-	* @param @param file
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return String    ·µ»ØÀàĞÍ  
-	*/
-	public static String fileSize(File file) {
-		if(file.exists() && file.isFile()) {
-			long length = file.length();
-			double len = length/1024.0;
-			return String.format("%.2f", len)+"kb";
-		}
-		return "ÎÄ¼ş²»´æÔÚ";
+	
+	
+	/**
+	 * 
+	 * @Title: getFileSizeOfB 
+	 * @Description: æ–‡ä»¶çš„æŒ‡å®šå¤§å° KBç»“å°¾
+	 * @param @param file
+	 * @param @return    è®¾å®šæ–‡ä»¶ 
+	 * @return String    è¿”å›ç±»å‹ 
+	 * @throws
+	 * 
+	 */
+	public static String  getFileSize(File file) {
+		
+		long size = file.length();
+		
+		float i = (float) (size/1024.0f);
+		/*
+		 * String s = String.format("%.2f", i);
+		 * System.out.println("============"+s);
+		 */
+		DecimalFormat df = new DecimalFormat("#.00");
+		return df.format(i)+"kb";
 	}
 	
-
-	//ÎÄ¼ş´óĞ¡ÖØÔØ
-	public static String fileSize(String file) {
-		return fileSize(new File(file));
-	}
 	
 	public static void main(String[] args) {
-		System.out.println(fileSize("D:\\WorkSpace\\cms\\.metadata\\.log"));
+		System.out.println(getSystemTempDirectory());
 	}
 }

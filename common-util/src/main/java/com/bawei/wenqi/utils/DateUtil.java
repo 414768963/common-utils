@@ -6,198 +6,281 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-/** 
- * @Title: DateUtil.java 
- * @Package com.bawei.wenqi.utils 
- * @Description: TODO(ÈÕÆÚ¹¤¾ßÀà) 
- * @author ÎÄç÷ 
- * @date 2019Äê12ÔÂ5ÈÕ 
- * @version V1.0 
- */ 
+/**
+ * 
+ * @author åˆ˜æµ©
+ * @Title: DateUtil.java
+ * @Package com.liuhao.util
+ * @Description: TODOå…³äºæ—¥æœŸçš„å·¥å…·ç±»
+ * @date 2019å¹´12æœˆ5æ—¥ ä¸‹åˆ6:50:12
+ */
 public class DateUtil {
 
-	private static SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-	private static SimpleDateFormat simpleDateFormat2 = new SimpleDateFormat("yyyy-MM");
-	private static SimpleDateFormat simpleDateFormat3 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
-	
-	/**  
-	* @Title: getAge  
-	* @Description: ¸ù¾İÈÕÆÚ¼ÆËãÄêÁä  
-	* @param @param birthday
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return int    ·µ»ØÀàĞÍ  
-	*/
-	public static int getAge(Date birthday) {
-		//»ñÈ¡ÈÕÀú¿Ø¼ş
+	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    private static SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+    public static SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+	/**
+	 * @Title: format   
+	 * @Description: æ—¶é—´æ ¼å¼åŒ–  
+	 * @param: @param theDate
+	 * @param: @return      
+	 * @return: String      
+	 * @throws
+	 */
+	public static String format(Date theDate) {
+		return sdf.format(theDate);
+	}
+
+	/**
+	 * 
+	 * @Title: getAge @Description: æ ¹æ® æ—¥æœŸç®—å¹´é¾„ @param birthdayDate @param è®¾å®šæ–‡ä»¶ @return
+	 * int è¿”å›ç±»å‹ @throws
+	 */
+	public static int getAge(Date birthdayDate) {
+
+		// è·å¾—æ—¥å†æ§ä»¶
 		Calendar calendar = Calendar.getInstance();
-		//»ñÈ¡µ±Ç°ÄêÔÂÈÕ
-		int nowYear = calendar.get(Calendar.YEAR);
-		int nowMonth = calendar.get(Calendar.MONTH);
-		int nowDay = calendar.get(Calendar.DAY_OF_MONTH);
-		//»ñÈ¡ÉúÈÕÄêÔÂÈÕ
-		calendar.setTime(birthday);
+		// è·å¾—å¹´ã€æœˆã€æ—¥
+		int currentYear = calendar.get(Calendar.YEAR);
+		int currentMonth = calendar.get(Calendar.MONTH);
+		int currentDay = calendar.get(Calendar.DAY_OF_MONTH);
+		// è·å–ç”Ÿæ—¥çš„
+		calendar.setTime(birthdayDate);
 		int birthYear = calendar.get(Calendar.YEAR);
 		int birthMonth = calendar.get(Calendar.MONTH);
 		int birthDay = calendar.get(Calendar.DAY_OF_MONTH);
-		
-		int age = nowYear-birthYear;
-		
-		if(nowMonth<birthMonth) {
+		int age = currentYear - birthYear;
+		// å¦‚æœç”Ÿæ—¥çš„æœˆä»½å¤§äºå½“å‰æœˆä»½åˆ™å‡ä¸€
+		if (birthMonth > currentMonth) {
 			age--;
 		}
-		if(nowMonth==birthMonth && nowDay<birthDay) {
+		// æœˆä»½ç›¸åŒ åˆ™ ç”Ÿæ—¥æ—¥æœŸå¤§äºå½“å‰æ—¥æœŸ å‡ä¸€
+		if (birthMonth == currentMonth && birthDay > currentDay) {
 			age--;
 		}
+
 		return age;
 	}
-	
-	/**  
-	* @Title: getDays  
-	* @Description: ¼ÆËã¿ªÊ¼ÈÕÆÚÓë½áÊøÈÕÆÚµÄÌìÊı²î  
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return int    ·µ»ØÀàĞÍ  
-	*/
-	public static int getDays(Date date1,Date date2) {
-		
-		long dayTime = 1000*60*60*24L;
-		long beginDate = date1.getTime();
-		long endDate = date2.getTime();
-		
-		double days = Math.floor(Math.abs((endDate-beginDate)/(dayTime*1.0)));
-		
-		return (int) days;
+
+	/**
+	 * 
+	 * @Title: getDateOfStartAndEnd @Description: æ ¹æ®ä¸¤ä¸ªæ—¶é—´æ®µç®—å‡ºæ—¶é—´æ®µä¹‹é—´çš„å¤©æ•° @param @param
+	 * date @param @param birthdayDate @param @return è®¾å®šæ–‡ä»¶ @return int è¿”å›ç±»å‹ @throws
+	 */
+	public static int getDayOfStartAndEnd(Date date1, Date date2) {
+
+		long time1 = date1.getTime();
+		long time2 = date2.getTime();
+		long dayTime = 1000 * 60 * 60 * 24L;
+
+		double ceil = Math.ceil(Math.abs((time1 - time2) / (dayTime * 1.0)));
+
+		return (int) (ceil);
 	}
-	
-	/**  
-	* @Title: isToday  
-	* @Description: ÅĞ¶ÏÈÕÆÚÓë½ñÌìÊÇ·ñÊÇÍ¬Ò»Ìì  
-	* @param @param date
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return boolean    ·µ»ØÀàĞÍ  
-	*/
-	public static boolean isToday(Date date) {
-		
-		if(simpleDateFormat.format(date).toString().equals(simpleDateFormat.format(new Date()).toString())) {
+
+	/**
+	 * 
+	 * @Title: getDayOfFutureToNow @Description: ç°åœ¨è·ç¦»æœªæ¥æŸä¸ªæ—¶é—´çš„å¤©æ•° @param @return
+	 * è®¾å®šæ–‡ä»¶ @return int è¿”å›ç±»å‹ @throws
+	 */
+	public static int getDayOfFutureToNow(Date futureDate) {
+
+		Date date = new Date();
+
+		return getDayOfStartAndEnd(date, futureDate);
+	}
+
+	/**
+	 * 
+	 * @Title: getDayOfPastToNow @Description: ç°åœ¨è·ç¦»è¿‡å»æŸä¸ªæ—¶é—´çš„å¤©æ•° @param @return
+	 * è®¾å®šæ–‡ä»¶ @return int è¿”å›ç±»å‹ @throws
+	 */
+	public static int getDayOfPastToNow(Date pastDate) {
+
+		Date date = new Date();
+
+		return getDayOfStartAndEnd(date, pastDate);
+	}
+
+	/**
+	 * 
+	 * @Title: isTodayOfDate @Description: åˆ¤æ–­ç»™å®šçš„æ—¥æœŸæ˜¯å¦ä¸ºä»Šå¤© @param @param
+	 * date @param @return è®¾å®šæ–‡ä»¶ @return boolean è¿”å›ç±»å‹ @throws
+	 */
+	public static boolean isTodayOfDate(Date date1) {
+
+		Date date2 = new Date();
+
+		String dateStr1 = date1.toString();
+		String dateStr2 = date2.toString();
+
+		System.out.println(dateStr1 + "---------------" + dateStr2);
+
+		if (dateStr1.equals(dateStr2)) {
 			return true;
 		}
-		
+
 		return false;
 	}
+
+	/**
+	 * 
+	 * @Title: isThisWeekOfDate 
+	 * @Description: åˆ¤æ–­ç»™å®šçš„æ—¶é—´æ˜¯å¦åœ¨æœ¬å‘¨ä¹‹ä¸­ 
+	 * @param @param date1 
+	 * @param @return è®¾å®šæ–‡ä»¶
+	 *  @return boolean
+	 *  è¿”å›ç±»å‹ @throws
+	 */
+	public static boolean isThisWeekOfDate(Date date1) {
+		
+		// è·å–æ—¥å†
+		Calendar firstDayOfWeek = Calendar.getInstance(Locale.getDefault());
+		
+		// ç»™æ—¥å† setFirstDayOfWeek() è®¾ç½®ä¸€æ˜ŸæœŸçš„ç¬¬ä¸€å¤©æ˜¯é‚£ä¸€å¤©
+		firstDayOfWeek.setFirstDayOfWeek(Calendar.MONDAY);
+		
+		// Calendar.DAY_OF_WEEK æŒ‡ä¸€ä¸ªæ˜ŸæœŸçš„ç¬¬å‡ å¤© ä»æ˜ŸæœŸæ—¥å¼€å§‹ç®—    get()è¿”å›ç»™å®šæ—¥å†å­—æ®µçš„å€¼
+		int day = firstDayOfWeek.get(Calendar.DAY_OF_WEEK);
+		
+		// Calendar.DATE å½“å‰æ˜¯æ˜ŸæœŸå‡  add(a,b) açš„æ—¥å†æ—¶é—´-bçš„å¤©æ•°
+		firstDayOfWeek.add(Calendar.DATE, -day+1+1);// åé¢çš„+1æ˜¯å› ä¸ºä»å‘¨æ—¥å¼€å§‹
+		//System.out.println("å½“å‰æ˜¯æ˜ŸæœŸ" + Calendar.DATE);
+		
+		//System.out.println(firstDayOfWeek.getFirstDayOfWeek() + "============" + day);
+		// æœ¬å‘¨çš„å‘¨ä¸€
+	//	System.out.println(sdf2.format(firstDayOfWeek.getTime()));
+
+		// è·å–æ—¥å†
+		Calendar lastDayOfWeek = Calendar.getInstance(Locale.getDefault());
+		// ç»™æ—¥å†
+		lastDayOfWeek.setFirstDayOfWeek(Calendar.MONDAY);
+
+		int day2 = lastDayOfWeek.get(Calendar.DAY_OF_WEEK);
+
+		lastDayOfWeek.add(Calendar.DATE, 7 - day2 + 1);// åé¢çš„+1æ˜¯å› ä¸ºä»å‘¨æ—¥å¼€å§‹
+
+		//System.out.println(lastDayOfWeek.getFirstDayOfWeek() + "============" + day2);
+		// æœ¬å‘¨çš„å‘¨ä¸€
+		//System.out.println(sdf2.format(lastDayOfWeek.getTime()));
+      
+		
+		boolean a =date1.getTime()<lastDayOfWeek.getTime().getTime();
+		/*
+		 * System.out.println("æœ¬å‘¨æœ€åä¸€å¤©çš„æ¯«ç§’å€¼ï¼š"+lastDayOfWeek.getTime().getTime());
+		 * System.out.println("æœ¬å‘¨ç¬¬ä¸€å¤©çš„æ¯«ç§’å€¼ï¼š"+firstDayOfWeek.getTime().getTime());
+		 * System.out.println("ç»™å®šæ—¶é—´çš„æ¯«ç§’å€¼ï¼š"+date1.getTime());
+		 */
+        boolean b =(date1.getTime()>firstDayOfWeek.getTime().getTime());
+
+		return a&&b;
+		}
+        /**
+         * 
+         * @Title: isThisMonthOfDate 
+         * @Description: TODOåˆ¤æ–­æ”¹æ—¶é—´æ˜¯å¦å¤„äºæœ¬æœˆå½“ä¸­
+         * @param @param date1
+         * @param @return    è®¾å®šæ–‡ä»¶ 
+         * @return boolean    è¿”å›ç±»å‹ 
+         * @throws
+         */
+	    public static boolean isThisMonthOfDate(Date date1) {
+              
+	    	
+	    	Calendar calendar = Calendar.getInstance();
+	    	
+	    	int monthNow = calendar.get(Calendar.MONTH);
+	    	
+	    	int yearNow = calendar.get(Calendar.YEAR);
+	    	
+	    	calendar.setTime(date1);
+            
+	    	int monthDate1 = calendar.get(Calendar.MONTH);
+	    	
+	    	int yearDate1 = calendar.get(Calendar.YEAR);
+	    	//å¦‚æœä¼ å…¥çš„æ—¶é—´ä¸æœ¬åœ°æ—¶é—´çš„å¹´ä»½ç›¸åŒ,åˆ™åˆ¤æ–­ä¸¤ä¸ªæ—¶é—´çš„æœˆä»½
+	    	if(yearDate1 ==yearNow) {
+	    		if(monthDate1==monthNow) {
+	    			return true;
+	    		}
+	    	}
+	    	
+	    	return false;	    	
+	    }
 	
-	/**  
-	* @Title: isThisWeek  
-	* @Description: ¸ø¶¨Ò»¸öÈÕÆÚÅĞ¶ÏÊÇ·ñÊÇ±¾ÖÜ  
-	* @param @param date
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return boolean    ·µ»ØÀàĞÍ  
-	*/
-	public static boolean isThisWeek(Date date) {
+	/**
+	 * 
+	 * @Title: getFirstDayDateOfThisMonth 
+	 * @Description: ç»™å®šæ—¶é—´å¯¹è±¡ï¼Œåˆå§‹åŒ–åˆ°è¯¥æœˆåˆçš„1æœˆ1æ—¥0æ—¶0åˆ†0ç§’0æ¯«ç§’
+	 * @param     è®¾å®šæ–‡ä»¶ 
+	 * @return void    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	public static Date getFirstDayDateOfThisMonth(Date date1) {
+		
+		SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-01 00:00:00");
+		
+		String firstDayDateOfThisMonth = sdf3.format(date1);
+		
+		System.out.println("è¯¥æ—¶é—´åˆå§‹åŒ–ä¸º ï¼š"+firstDayDateOfThisMonth);
 		
 		
-	    Calendar firstDayOfWeek = Calendar.getInstance(Locale.getDefault());
-	    System.out.println(firstDayOfWeek);
-	    firstDayOfWeek.setFirstDayOfWeek(Calendar.MONDAY);
-	    int day = firstDayOfWeek.get(Calendar.DAY_OF_WEEK);
-	    firstDayOfWeek.add(Calendar.DATE, -day+1+1);// ºóÃæµÄ+1ÊÇÒòÎª´ÓÖÜÈÕ¿ªÊ¼
-	    // ±¾ÖÜÒ»µÄÈÕÆÚ
-	    System.out.println(simpleDateFormat.format(firstDayOfWeek.getTime()));
+		try {
+			return sdf2.parse(firstDayDateOfThisMonth);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	    /**
+	     * 
+	     * @Title: getLastDayDateOfThisMonth 
+	     * @Description: ç»™å®šæ—¶é—´å¯¹è±¡ï¼Œè®¾å®šåˆ°è¯¥æœˆæœ€ä¸€å¤©çš„23æ—¶59åˆ†59ç§’999æ¯«ç§’
+	     * @param @param date1
+	     * @param @return    è®¾å®šæ–‡ä»¶ 
+	     * @return Date    è¿”å›ç±»å‹ 
+	     * @throws
+	     */
+     public static Date getLastDayDateOfThisMonth(Date date1) {
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		
+	     calendar.setTime(date1); 
 	     
-	    Calendar lastDayOfWeek = Calendar.getInstance(Locale.getDefault());
-	    System.out.println(firstDayOfWeek);
-	    lastDayOfWeek.setFirstDayOfWeek(Calendar.MONDAY);
-	    day = lastDayOfWeek.get(Calendar.DAY_OF_WEEK);
-	    lastDayOfWeek.add(Calendar.DATE, 7-day+1);
-	    
-	    // ±¾ÖÜĞÇÆÚÌìµÄÈÕÆÚ
-	    System.out.println(simpleDateFormat.format(lastDayOfWeek.getTime()));
-	    
-	    return (date.getTime()<lastDayOfWeek.getTime().getTime() && date.getTime()>firstDayOfWeek.getTime().getTime() );
-	}
-
-	/**  
-	* @Title: isToday  
-	* @Description: ÅĞ¶ÏÈÕÆÚÓë½ñÌìÊÇ·ñÊÇÍ¬Ò»ÔÂ
-	* @param @param date
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return boolean    ·µ»ØÀàĞÍ  
-	*/
-	public static boolean isThisMonth(Date date) {
-		
-		if(simpleDateFormat2.format(date).toString().equals(simpleDateFormat2.format(new Date()).toString())) {
-			return true;
-		}
-		
-		return false;
-	}
-	
-	/**  
-	* @Title: setDateToFirstDayOfThisMonth  
-	* @Description: ³õÊ¼»¯µ½¸ÃÔÂ³õµÄ1ÈÕ0Ê±0·Ö0Ãë0ºÁÃë
-	* @param @param date
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return Date    ·µ»ØÀàĞÍ  
-	*/
-	public static Date setDateToFirstDayOfThisMonth(Date date) {
-		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.set(Calendar.DAY_OF_MONTH,1);
-		calendar.set(Calendar.HOUR,0);
-		calendar.set(Calendar.MINUTE,0);
-		calendar.set(Calendar.SECOND,0);
-		
-		
+	     Date firstDayDateOfThisMonth = getFirstDayDateOfThisMonth(calendar.getTime());
+		 calendar.setTime(firstDayDateOfThisMonth);
+		 calendar.add(Calendar.MONTH, 1);
+		 calendar.add(Calendar.MILLISECOND, -1);
 		return calendar.getTime();
 	}
-	
-	/**  
-	* @Title: setDateToFirstDayOfThisMonth  
-	* @Description: ¸ø¶¨Ê±¼ä¶ÔÏó£¬Éè¶¨µ½¸ÃÔÂ×îÒ»ÌìµÄ23Ê±59·Ö59Ãë999ºÁÃë
-	* @param @param date
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return Date    ·µ»ØÀàĞÍ  
-	*/
-	public static Date setDateToLastDayOfThisMonth(Date date) {
+	/**
+	 * 
+	 * @Title: compareOfDate 
+	 * @Description:0-ç›¸ç­‰          1- date1å¤§äºdate2          -1 date1å°äºdate2
+	 * @param @param date1
+	 * @param @param date2
+	 * @param @return    è®¾å®šæ–‡ä»¶ 
+	 * @return int    è¿”å›ç±»å‹ 
+	 * @throws
+	 * 
+	 */
+	public static int compareOfDate(Date date1 ,Date date2) {
 		
-		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(date);
-		calendar.add(Calendar.MONTH, 1);
-		calendar.set(Calendar.DAY_OF_MONTH, 1);
-		calendar.set(Calendar.HOUR, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.add(Calendar.SECOND, -1);
-		
-		
-		return calendar.getTime();
-
-	}
-	
-	/**  
-	* @Title: compareTime  
-	* @Description: ±È½ÏÁ½¸öÊ±¼äµÄ´óĞ¡
-	* @param @param date1
-	* @param @param date2
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return int    ·µ»ØÀàĞÍ  
-	*/
-	public static int compareTime(Date date1,Date date2) {
-		long d1 = date1.getTime();
-		long d2 = date2.getTime();
-		if(d1==d2) {
+		long time1 = date1.getTime();
+		long time2 = date2.getTime();
+		if(time1 == time2) {
 			return 0;
 		}
-		if(d1>d2) {
+		else if(time1>time2) {
 			return 1;
 		}
-		return -1;
-	}
-	
-	public static void main(String[] args) throws Exception {
-		Date parse = simpleDateFormat.parse("1999-12-06");
-		System.out.println(simpleDateFormat3.format(setDateToLastDayOfThisMonth(parse)));
+		else {
+			return -1;
+		}
 		
 	}
-	
-	
+     
 }

@@ -1,61 +1,60 @@
-/** 
- * @Title: RandomUtil.java 
- * @Package com.bawei.wenqi.utils 
- * @Description: TODO(ÓÃÒ»¾ä»°ÃèÊö¸ÃÎÄ¼ş×öÊ²Ã´) 
- * @author ÎÄç÷ 
- * @date 2019Äê12ÔÂ6ÈÕ 
- * @version V1.0 
- */ 
-
 package com.bawei.wenqi.utils;
 
 import java.util.Random;
 
-/** 
+/**
+ * 
+ * @author åˆ˜æµ©
  * @Title: RandomUtil.java 
- * @Package com.bawei.wenqi.utils 
- * @Description: Ëæ»úÊı¹¤¾ß
- * @author ÎÄç÷ 
- * @date 2019Äê12ÔÂ6ÈÕ 
- * @version V1.0 
+ * @Package com.liuhao.util 
+ * @Description: éšæœºæ•°å­—å­—æ¯ç­‰ç­‰æ“ä½œ
+ * @date 2019å¹´12æœˆ6æ—¥ ä¸‹åˆ7:32:55
  */
-
 public class RandomUtil {
-	/**
-	 * @Title: random   
-	 * @Description: »ñµÃ×îĞ¡ÊıºÍ×î´óÊıÖ®¼äµÄËæ»úÊı   
-	 * @param: @param min
-	 * @param: @param max
-	 * @param: @return      
-	 * @return: int      
-	 * @throws
-	 */
+    /**
+     * 
+     * @Title: random 
+     * @Description: æ ¹æ®ä¼ å…¥çš„æœ€å¤§æœ€å°å€¼ï¼Œè·å–éšæœºæ•°
+     * @param @param min
+     * @param @param max
+     * @param @return    è®¾å®šæ–‡ä»¶ 
+     * @return int    è¿”å›ç±»å‹ 
+     * @throws
+     */
+    
 	public static int random(int min,int max) {
+		
 		Random random = new Random();
-		return min+random.nextInt(max-min+1);
-	}
-	/**
-	 * @Title: random   
-	 * @Description: »ñµÃ×îĞ¡ÊıºÍ×î´óÊıÖ®¼äµÄ¶à¸öËæ»úÊı
-	 * @param: @param min
-	 * @param: @param max
-	 * @param: @param num
-	 * @param: @return      
-	 * @return: int[]      
-	 * @throws
-	 */
-	public static int[] random(int min,int max,int num) {
-		int[] intArray = new int[num];
-		for (int i = 0; i < num; i++) {
-			intArray[i] = random(min, max);
-		}
-		return intArray;
+		int num =min+random.nextInt(max-min+1);
+		//int num = min+(int)(Math.random()*(max-min+1));
+		return num;
 	}
 	
-	public static void main(String[] args) {
-		int[] random = random(10, 15,100);
-		for (int i : random) {
-			System.out.println(i);
-		}
+	/**
+	 * 
+	 * @Title: random 
+	 * @Description: ç»™å®šä¸€ä¸ªæœ€å¤§å€¼ï¼Œä¸€ä¸ªæœ€å°å€¼ï¼Œä¸€ä¸ªéšæœºæ•°çš„æ•°é‡
+	 * @param @param min
+	 * @param @param max
+	 * @param @param count
+	 * @param @return    è®¾å®šæ–‡ä»¶ 
+	 * @return int[]    è¿”å›ç±»å‹ 
+	 * @throws
+	 * 
+	 */
+public static int[] random(int min,int max,int count) {
+		
+	       int [] a =new int[count];
+	      for(int i=0;i<count;i++){
+	    	  
+	    	  int j = random(min, max);
+	    	  a[i] =j;
+	    	  
+	      }	
+	
+		return a;
 	}
+	
+	
+	
 }

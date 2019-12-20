@@ -1,133 +1,176 @@
 package com.bawei.wenqi.utils;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-/** 
- * @Title: StreamUtil.java 
- * @Package com.bawei.wenqi.utils 
- * @Description: Á÷¹¤¾ßÀà
- * @author ÎÄç÷ 
- * @date 2019Äê12ÔÂ6ÈÕ 
- * @version V1.0 
- */ 
 public class StreamUtil {
 
-	/**  
-	* @Title: closeAll  
-	* @Description: ¹Ø±ÕÁ÷£¬¿É¹Ø±Õ¶à¸ö
-	* @param @param autoCloseables    Éè¶¨ÎÄ¼ş  
-	* @return void    ·µ»ØÀàĞÍ  
-	*/
-	public static void closeAll(AutoCloseable... autoCloseables ) {
-		if(autoCloseables!=null) {
-			for (AutoCloseable autoCloseable : autoCloseables) {
+	/**
+	 * 
+	 * 
+	 * @Title: closeStream 
+	 * @Description: å…³æµ
+	 * @param @param autoCloseables    è®¾å®šæ–‡ä»¶ 
+	 * @return void    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	public static void closeStream(AutoCloseable...autoCloseables) {
+		
+		for (AutoCloseable autoCloseable : autoCloseables) {
+			if(autoCloseable!=null) {
 				try {
 					autoCloseable.close();
 				} catch (Exception e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		}
 	}
 	
-	/**  
-	* @Title: ReadFileByLine  
-	* @Description: °´ĞĞ¶ÁÈ¡ÎÄ¼ş
-	* @param @param filename
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return String    ·µ»ØÀàĞÍ  
-	*/
-	public static void ReadFileByLine(String filename) {
-		 File file = new File(filename);
-         InputStream is = null;
-         Reader reader = null;
-         BufferedReader bufferedReader = null;
-         
-         try {
-			is = new FileInputStream(file);
-	        reader = new InputStreamReader(is);
-            bufferedReader = new BufferedReader(reader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-                System.out.println(line);
-            }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			closeAll(is,reader,bufferedReader);
-		}
-	}
 	
-	
-	/**  
-	* @Title: ReadFileByLine  
-	* @Description: °´ĞĞ¶ÁÈ¡ÎÄ¼ş·µ»Ølist¼¯ºÏ
-	* @param @param filename
-	* @param @return    Éè¶¨ÎÄ¼ş  
-	* @return String    ·µ»ØÀàĞÍ  
-	*/
-	public static List<String> ReadFileByLineOfList(String filename) {
-		 File file = new File(filename);
-		 List<String> strList = new ArrayList<>();
-         InputStream is = null;
-         Reader reader = null;
-         BufferedReader bufferedReader = null;
-         
-         try {
-			is = new FileInputStream(file);
-	        reader = new InputStreamReader(is);
-            bufferedReader = new BufferedReader(reader);
-            String line = null;
-            while ((line = bufferedReader.readLine()) != null) {
-            	strList.add(line);
-            }
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}finally {
-			closeAll(is,reader,bufferedReader);
-		}
-         return strList;
-	}
-	
-	/**  
-	* @Title: ReadFileByBytes  
-	* @Description: ×Ö½Ú¶ÁÈ¡ÎÄ¼ş  
-	* @param @param filename    Éè¶¨ÎÄ¼ş  
-	* @return void    ·µ»ØÀàĞÍ  
-	*/
-	public static void ReadFileByBytes(String filename) {
-		File file = new File(filename);
-		FileInputStream inputStream = null;
+	/**
+	 * 
+	 * @Title: readTextFile 
+	 * @Description: è¯»å–æ–‡ä»¶ä¸­çš„å†…å®¹
+	 * @param @param file
+	 * @param @return    è®¾å®šæ–‡ä»¶ 
+	 * @return String    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	@SuppressWarnings("resource")
+	public static String  readTextFile(File file) {
+		     InputStream input =null;
+		     String str="";
 		try {
-			inputStream = new FileInputStream(file);
-			int index = 0;
-			byte[] tempbyte = new byte[1024];
-			while((index=inputStream.read(tempbyte))!=-1) {
-				System.out.write(tempbyte,0,index);
+			 input = new  FileInputStream(file);
+			byte[] b = new byte[1024];
+			while( input.read(b)!=-1) {
+				
+				str+=new String(b);
 			}
-		} catch (Exception e) {
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally {
-			closeAll(inputStream);
+			closeStream(input);
 		}
+		
+		return str;
+		
+	}	
+	
+	/**
+	 * 
+	 * @Title: readTextFileByLine 
+	 * @Description: æŒ‰è¡Œè¯»å–æ–‡ä»¶å†…å®¹
+	 * @param @param file
+	 * @param @return    è®¾å®šæ–‡ä»¶ 
+	 * @return List<String>    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	
+	
+	public static List<String> readTextFileByLine(File file) {
+		
+		BufferedReader br =null;
+		  List<String> list = new ArrayList<>();
+		  try {
+			   
+			br = new BufferedReader(new FileReader(file));
+			  String str="";
+			  //æ­¤å¤„ä½ ç”¨fin.readæ–¹æ³•å·²ç»è¯»å–ä¸€ä¸ªå­—ç¬¦äº†äºŒå¾ªç¯ä½“åˆç”¨readlineæ–¹æ³•
+			  //æ¥ç€è¯»æ˜¾ç„¶ä¼šå°‘ä¸€ä¸ªå­—ç¬¦å› ä¸ºä½ readæ–¹æ³•è¯»è¿‡ä¸€ä¸ªå­—ç¬¦æ¸¸æ ‡å°±ä¼šç§»åŠ¨ä¸€ä¸‹
+			while((str=br.readLine())!=null) {
+				list.add(str);
+				
+			}
+			
+			
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+            closeStream(br);
+		}
+		
+		return list;
+	}
+	/**
+	 * 
+	 * @Title: copyStream 
+	 * @Description: TODOå¤åˆ¶æµ
+	 * @param @param input
+	 * @param @param out
+	 * @param @param isCloseInputStream
+	 * @param @param isCloseOutputStream    è®¾å®šæ–‡ä»¶ 
+	 * @return void    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	
+	public static void copyStream(InputStream input,OutputStream out,boolean isCloseInputStream,boolean isCloseOutputStream) {
+		
+		
+		
 	}
 	
-	public static void main(String[] args) {
-		List<String> readTextFileOfList = ReadFileByLineOfList("D:\\ÄÚÍøÍ¨ÎÄ¼ş\\java\\Ğ¡Ò»\\×ÊÁÏ\\common-utils\\src\\main\\java\\com\\zhanggm\\common\\utils\\StreamUtil.java");
-		for (String s : readTextFileOfList) {
-			System.out.println(s);
+	/**
+	 * 
+	 * @Title: writeFileContext 
+	 * @Description: 
+	 * @param @param path
+	 * @param @param file    è®¾å®šæ–‡ä»¶ 
+	 * @return void    è¿”å›ç±»å‹ 
+	 * @throws
+	 */
+	
+      @SuppressWarnings("resource")
+	   public static void  writeFileContext(String context,File file,boolean append) {
+    	  
+    	  BufferedWriter bw = null;
+    	  
+    	  try {
+			
+			 //åˆ¤æ–­æ‰€å†™çš„æ–‡ä»¶æ˜¯å¦æœ‰çˆ¶çº§è·¯å¾„
+			 String parent = file.getParent();
+			 File parentFile = new File(parent);
+			 if(!parentFile.exists()) {
+				 parentFile.mkdirs();
+			 }
+			 //å†™æ–‡ä»¶
+			 bw = new BufferedWriter(new FileWriter(file,append));
+			 bw.write(context);
+			 bw.flush();
+			 
+			 
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}finally {
+			closeStream(bw);
 		}
-	}
+      }
+	
+	 public static void downFileFromNet() {
+		 
+	 }
+	
 }
