@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Test;
 
 import com.bawei.wenqi.utils.StreamUtil;
+import com.bawei.wenqi.utils.StringUtil;
 
 /** 
  * @Title: MyTest.java 
@@ -32,5 +33,11 @@ public class MyTest {
 		for (String string : a) {
 			System.out.println(string);
 		}
+	}
+	
+	@Test
+	public void TestURL() {
+		boolean httpUrl = StringUtil.isHttpUrl("https://www.bawei.com");
+		System.out.println(httpUrl);
 	}
 }
