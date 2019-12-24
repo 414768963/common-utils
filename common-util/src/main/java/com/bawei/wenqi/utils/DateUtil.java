@@ -230,6 +230,18 @@ public class DateUtil {
 		
 	}
 	
+	/**
+	 * 判断单双号，单号1，双号0
+	 * @param date
+	 * @return
+	 */
+	public static int getOddOrEven(Date date) {
+		Calendar calendar=Calendar.getInstance();
+		calendar.setTime(date);
+		int Day=calendar.get(Calendar.DAY_OF_MONTH);
+		return Day%2;
+	}
+	
 	public static void main(String[] args) throws ParseException {
 		Date firstDateInMonth = getLastDateInMonth(new Date());
 		System.out.println();
