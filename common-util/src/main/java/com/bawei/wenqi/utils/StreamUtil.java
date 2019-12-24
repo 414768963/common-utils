@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -128,6 +130,35 @@ public class StreamUtil {
 		}finally {
 			closeAll(writer);
 		}
+	}
+	
+	/**
+	 * @Title: readTextFileOfList   
+	 * @Description: 按行读取文件内容到list集合   
+	 * @param: @param pathname
+	 * @param: @return      
+	 * @return: List<String>      
+	 * @throws
+	 */
+	public static List<String> readTextFileOfList(String pathname) {
+		BufferedReader br = null;
+		List<String> strList = new ArrayList<>();
+		try {
+			br = new BufferedReader(new FileReader(new File(pathname)));
+			String line="";
+			while((line=br.readLine())!=null) {
+				strList.add(line);
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}finally {
+			StreamUtil.closeAll(br);
+		}
+		return strList;
 	}
 	
 	public static void writeTextFile(String content,String fileFullName,boolean append) {
