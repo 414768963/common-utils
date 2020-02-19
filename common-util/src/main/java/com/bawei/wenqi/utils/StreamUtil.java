@@ -88,7 +88,7 @@ public class StreamUtil {
 		try {
 			inputStream = new FileInputStream(file);
 			byte[] b = new byte[1024];
-			String str = null;
+			String str = "";
 			while (inputStream.read(b)!=-1) {
 				str += new String(b);
 			}
